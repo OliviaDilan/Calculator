@@ -19,4 +19,9 @@
     <string name="button_plus">+</string>
     <string name="button_0">0</string>
     <string name="button_calculate">=</string>
-</resources>
+    <string name="button_lt">&lt;</string>
+    <string name="button_gt">&gt;</string>
+    <string name="button_double">:</string>
+    <string name="button_dot">.</string>
+    <string name="button_del">Del</string>
+    </resources>
