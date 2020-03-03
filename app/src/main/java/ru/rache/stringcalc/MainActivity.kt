@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity() {
         minus.setOnClickListener { setTextField("-") }
         plus.setOnClickListener { setTextField("+") }
 
-        lt.setOnClickListener { setTextField("<") }
-        gt.setOnClickListener { setTextField(">") }
-        ternary.setOnClickListener { setTextField("?") }
-        db.setOnClickListener { setTextField(":") }
         dot.setOnClickListener { setTextField(".") }
 
         button_ac.setOnClickListener {
@@ -192,7 +188,7 @@ class MainActivity : AppCompatActivity() {
 
             }*/
 
-            if (check == true)
+            if (check)
             {
                 calculateAll(str)
             }
@@ -200,7 +196,6 @@ class MainActivity : AppCompatActivity() {
             {
                 result.text = "error"
             }
-
 
         }
 
@@ -232,7 +227,7 @@ class MainActivity : AppCompatActivity() {
                         k -= 1
                     }
                     val operation = input.substring(k + 1, i)
-                    var part = purs(operation)
+                    val part = purs(operation)
 
                     input = input.replace(input.substring(k, i + 1), part.toString())
                     len -= operation.length
@@ -244,16 +239,26 @@ class MainActivity : AppCompatActivity() {
                 i++
             }
         } else if (open != close) {
-            result.text = "error"
+            result.text = "error: invalid brackets"
+            return
         }
 
-        var finalRes = purs(input)
-        input = input.replace(input, finalRes.toString())
-        result.text = input
+        if (str == "")
+        {
+            result.text = ""
+        }
+        else
+        {
+            var finalRes = purs(input)
+            input = input.replace(input, finalRes.toString())
+            result.text = input
+        }
+
     }
 
     fun purs(str: String) : Double
     {
+
         val parts = str.split("+","-","*","/")
 
         var signs = ""
@@ -301,42 +306,46 @@ class MainActivity : AppCompatActivity() {
             step++
         }*/
 
-        for (i in step..signs.length-1)
+        for (i in 0..signs.length-1)
         {
             if (signs[i] == '*')
             {
                 partsDouble[i] = partsDouble[i] * partsDouble[i+1]
-                partsDouble[i+1] = partsDouble[i] * partsDouble[i+1]
+                partsDouble[i+1] = partsDouble[i]
+                step = i
             }
             if (signs[i] == '/')
             {
                 partsDouble[i] = partsDouble[i] / partsDouble[i+1]
-                partsDouble[i+1] = partsDouble[i] / partsDouble[i+1]
+                partsDouble[i+1] = partsDouble[i]
+                step = i
             }
         }
 
-        for (i in step..signs.length-1)
+        for (i in 0..signs.length-1)
         {
             if (signs[i] == '+')
             {
                 partsDouble[i] = partsDouble[i] + partsDouble[i+1]
-                partsDouble[i+1] = partsDouble[i] + partsDouble[i+1]
+                partsDouble[i+1] = partsDouble[i]
+                step = i
             }
             if (signs[i] == '-')
             {
                 partsDouble[i] = partsDouble[i] - partsDouble[i+1]
-                partsDouble[i+1] = partsDouble[i] - partsDouble[i+1]
+                partsDouble[i+1] = partsDouble[i]
+                step = i
             }
         }
 
 
         if (minus)
         {
-            return -partsDouble[0]
+            return -partsDouble[step]
         }
         else
         {
-            return partsDouble[0]
+            return partsDouble[step]
         }
     }
 
